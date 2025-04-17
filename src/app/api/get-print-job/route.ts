@@ -1,16 +1,12 @@
 // src/app/api/get-print-job/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { PrintJob } from '@/types/print';
 
 // This should access the same printJobs object as in print-labels route
 // In production, use a proper database instead of shared memory
 declare global {
-  var printJobs: Record<string, {
-    labels: any[];
-    labelSize: string;
-    showPrice: boolean;
-    showCondition: boolean;
-    expires: number;
-  }>;
+  // eslint-disable-next-line no-var
+  var printJobs: Record<string, PrintJob>;
 }
 
 // Initialize global printJobs if not exists
@@ -50,4 +46,3 @@ export async function GET(request: NextRequest) {
   
   return NextResponse.json(printJob);
 }
-

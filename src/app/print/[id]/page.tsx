@@ -3,22 +3,10 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
+import { Label, PrintJob } from '@/types/print';
 
-// Define types for our label data
-interface Label {
-  title: string;
-  variation?: string;
-  condition?: string;
-  identifier: string;
-  price: string;
-}
-
-interface PrintData {
-  labels: Label[];
-  labelSize: string;
-  showPrice: boolean;
-  showCondition: boolean;
-}
+interface PrintData extends PrintJob {}
 
 export default function PrintPage() {
   const params = useParams();
@@ -37,8 +25,8 @@ export default function PrintPage() {
         }
         const printData = await response.json();
         setData(printData);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load print data');
+      } catch (err) {
+        setError((err as Error).message || 'Failed to load print data');
       } finally {
         setLoading(false);
       }
@@ -183,7 +171,9 @@ export default function PrintPage() {
               justifyContent: 'space-between',
               boxSizing: 'border-box',
               background: 'white',
-              textAlign: 'center'
+              textAlign: 'center',
+              position: 'relative', // For next/image
+              overflow: 'hidden'
             }}
           >
             <div>
@@ -254,12 +244,17 @@ export default function PrintPage() {
             </div>
             
             <div style={{ textAlign: 'center', margin: '4px auto' }}>
-              <img 
+              <Image
                 src={`/api/qr?url=${encodeURIComponent(label.identifier)}&size=${getQRSize(labelSize)}`}
                 alt={`QR code for ${label.identifier}`}
                 width={getQRSize(labelSize)}
                 height={getQRSize(labelSize)}
-                style={{ maxWidth: '100%', maxHeight: '100%' }}
+                style={{ 
+                  maxWidth: '100%', 
+                  maxHeight: '100%',
+                  objectFit: 'contain'
+                }}
+                unoptimized // Important for QR codes
               />
             </div>
           </div>

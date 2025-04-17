@@ -1,4 +1,3 @@
-
 // src/app/print/[id]/layout.tsx
 export default function PrintLayout({
     children,
@@ -14,3 +13,4 @@ export default function PrintLayout({
       </html>
     );
   }
+  

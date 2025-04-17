@@ -1,20 +1,20 @@
 // src/app/api/print-labels/route.ts
+import { PrintJob } from '@/types/print';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Create a simple in-memory store for print jobs
 // In production, you should use a proper database
-let printJobs: Record<string, {
-  labels: any[];
-  labelSize: string;
-  showPrice: boolean;
-  showCondition: boolean;
-  expires: number;
-}> = {};
+const printJobs: Record<string, PrintJob> = {};
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { labels, labelSize, showPrice, showCondition } = body;
+    const { labels, labelSize, showPrice, showCondition } = body as {
+      labels: Label[];
+      labelSize: string;
+      showPrice?: boolean;
+      showCondition?: boolean;
+    };
 
     if (!labels || !Array.isArray(labels) || labels.length === 0) {
       return NextResponse.json(
