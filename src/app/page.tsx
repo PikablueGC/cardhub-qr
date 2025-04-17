@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+// Remove the unused Image import
 
 interface QRCode {
   url: string;
@@ -66,7 +66,7 @@ export default function Home() {
                 id="size"
                 value={size}
                 onChange={(e) => setSize(parseInt(e.target.value))}
-                min={10}
+                min={40}
                 max={1000}
                 className="w-full mt-1 px-3 py-2 border rounded-md"
                 required
@@ -90,7 +90,7 @@ export default function Home() {
               {qrCodes.map((qr, index) => (
                 <div key={index} className="border rounded-md p-4 flex flex-col items-center text-center">
                   <p className="mb-2 break-all text-sm">{qr.url}</p>
-                  {/* Use a regular img tag instead of Next.js Image for data URLs */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={qr.dataUrl} alt={`QR code for ${qr.url}`} className="mb-2" />
                   <a 
                     href={qr.dataUrl} 
