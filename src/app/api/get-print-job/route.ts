@@ -1,12 +1,11 @@
 // src/app/api/get-print-job/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { PrintJob } from '@/types/print';
 
-// This should access the same printJobs object as in print-labels route
-// In production, use a proper database instead of shared memory
+// Access the print jobs store
+// For simplicity in this example, we'll declare it here again
+// In a real app, use a shared module or database
 declare global {
-  // eslint-disable-next-line no-var
-  var printJobs: Record<string, PrintJob>;
+  var printJobs: Record<string, any>;
 }
 
 // Initialize global printJobs if not exists
