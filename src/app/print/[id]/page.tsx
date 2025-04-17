@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import Image from 'next/image';
 
 // Simple data type for print jobs
 type PrintData = {
