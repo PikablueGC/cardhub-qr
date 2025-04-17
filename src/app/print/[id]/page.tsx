@@ -4,9 +4,20 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import { Label, PrintJob } from '@/types/print';
 
-interface PrintData extends PrintJob {}
+// Simple data type for print jobs
+type PrintData = {
+  labels: Array<{
+    title: string;
+    variation?: string;
+    condition?: string;
+    identifier: string;
+    price: string;
+  }>;
+  labelSize: string;
+  showPrice: boolean;
+  showCondition: boolean;
+}
 
 export default function PrintPage() {
   const params = useParams();
@@ -26,7 +37,7 @@ export default function PrintPage() {
         const printData = await response.json();
         setData(printData);
       } catch (err) {
-        setError((err as Error).message || 'Failed to load print data');
+        setError((err instanceof Error) ? err.message : 'Failed to load print data');
       } finally {
         setLoading(false);
       }
@@ -172,7 +183,7 @@ export default function PrintPage() {
               boxSizing: 'border-box',
               background: 'white',
               textAlign: 'center',
-              position: 'relative', // For next/image
+              position: 'relative',
               overflow: 'hidden'
             }}
           >
@@ -244,17 +255,16 @@ export default function PrintPage() {
             </div>
             
             <div style={{ textAlign: 'center', margin: '4px auto' }}>
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
                 src={`/api/qr?url=${encodeURIComponent(label.identifier)}&size=${getQRSize(labelSize)}`}
                 alt={`QR code for ${label.identifier}`}
-                width={getQRSize(labelSize)}
-                height={getQRSize(labelSize)}
                 style={{ 
-                  maxWidth: '100%', 
-                  maxHeight: '100%',
-                  objectFit: 'contain'
+                  width: `${getQRSize(labelSize)}px`, 
+                  height: `${getQRSize(labelSize)}px`,
+                  maxWidth: '100%',
+                  maxHeight: '100%'
                 }}
-                unoptimized // Important for QR codes
               />
             </div>
           </div>
