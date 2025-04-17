@@ -1,11 +1,14 @@
+
 // src/app/api/get-print-job/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { PrintJob } from '@/types/print';
 
 // Access the print jobs store
 // For simplicity in this example, we'll declare it here again
 // In a real app, use a shared module or database
 declare global {
-  var printJobs: Record<string, any>;
+  // eslint-disable-next-line no-var
+  var printJobs: Record<string, PrintJob>;
 }
 
 // Initialize global printJobs if not exists
