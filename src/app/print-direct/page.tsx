@@ -1,7 +1,7 @@
 // src/app/print-direct/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 // Simple data type for print jobs
@@ -19,6 +19,14 @@ type PrintData = {
 }
 
 export default function PrintDirectPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading your labels...</div>}>
+      <PrintContent />
+    </Suspense>
+  );
+}
+
+function PrintContent() {
   const searchParams = useSearchParams();
   const [data, setData] = useState<PrintData | null>(null);
   const [loading, setLoading] = useState(true);
