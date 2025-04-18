@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   
   // Validate size
   const size = parseInt(sizeParam);
-  if (isNaN(size) || size < 100 || size > 1000) {
+  if (isNaN(size) || size < 40 || size > 1000) {
     return NextResponse.json(
       { error: 'Size must be between 100 and 1000 pixels' },
       { status: 400 }
