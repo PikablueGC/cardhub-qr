@@ -114,12 +114,12 @@ function PrintContent() {
 
   function getQRSize(labelSize: string): number {
     const sizes: Record<string, number> = {
-      small: 70,
-      medium: 80,
-      large: 100,
-      dymo5xl: 60
+      small: 100,
+      medium: 110,
+      large: 130,
+      dymo5xl: 100
     };
-    return sizes[labelSize] || 70;
+    return sizes[labelSize] || 100;
   }
 
   function getGridColumns(labelSize: string): number {
@@ -173,7 +173,7 @@ function PrintContent() {
             key={index} 
             style={{
               border: '1px solid #ccc',
-              padding: '8px',
+              padding: '6px',
               height: getLabelHeight(labelSize),
               width: getLabelWidth(labelSize),
               margin: labelSize === 'dymo5xl' ? '0' : '2px',
@@ -238,7 +238,7 @@ function PrintContent() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 fontSize: getLabelFontSize(labelSize),
-                margin: '4px 0'
+                margin: '2px 0'
               }}
             >
               <div>ID: {label.identifier}</div>
@@ -255,16 +255,25 @@ function PrintContent() {
               )}
             </div>
             
-            <div style={{ textAlign: 'center', margin: '4px auto' }}>
+            <div 
+              style={{
+                textAlign: 'center', 
+                margin: '2px auto',
+                maxHeight: `${getQRSize(labelSize)}px`,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={`/api/qr?url=${encodeURIComponent(label.identifier)}&size=${getQRSize(labelSize)}`}
                 alt={`QR code for ${label.identifier}`}
                 style={{ 
-                  width: `${getQRSize(labelSize)}px`, 
-                  height: `${getQRSize(labelSize)}px`,
                   maxWidth: '100%',
-                  maxHeight: '100%'
+                  maxHeight: '100%',
+                  width: 'auto',
+                  height: 'auto'
                 }}
               />
             </div>
