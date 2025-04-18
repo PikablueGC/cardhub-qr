@@ -4,7 +4,7 @@ import QRCode from 'qrcode';
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const url = searchParams.get('url');
-  const sizeParam = searchParams.get('size') || '200';
+  const sizeParam = searchParams.get('size') || '40';
   
   if (!url) {
     return NextResponse.json(
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     
     // Validate size
     const qrSize = parseInt(size.toString());
-    if (isNaN(qrSize) || qrSize < 100 || qrSize > 1000) {
+    if (isNaN(qrSize) || qrSize < 40 || qrSize > 1000) {
       return NextResponse.json(
         { error: 'Size must be between 100 and 1000 pixels' },
         { status: 400 }
